@@ -1,82 +1,59 @@
-/* FONDO GENERAL */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url("https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg");
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    position: relative;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top:0; left:0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 0;
-}
-
 /* LOGIN */
 .login-container {
     position: relative;
     z-index: 1;
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.25); /* translúcido */
+    backdrop-filter: blur(10px); /* efecto desenfoque */
     padding: 40px;
     border-radius: 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    transition: all 0.3s ease;
 }
 
-.login-container h1 { margin-bottom: 20px; }
+.login-container:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
 input#username {
-    width: 100%; padding: 12px; border-radius: 12px;
-    border: 1px solid #ccc; margin-bottom: 20px; font-size: 16px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(5px);
 }
+
+input#username::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
 button#loginBtn {
-    width: 100%; padding: 12px; border-radius: 12px;
-    border: none; background: linear-gradient(90deg, #6b73ff, #000dff);
-    color: #fff; font-size: 16px; cursor: pointer; transition: transform 0.2s;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #6b73ff, #000dff);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
 }
-button#loginBtn:hover { transform: scale(1.05); }
 
-/* PANTALLA DE GRUPOS */
-#grupoScreen { color:#fff; text-align:center; }
-.grupo-buttons { display:flex; justify-content:center; gap:10px; margin-bottom:20px; }
-.grupo-buttons button { padding:10px 15px; border-radius:10px; border:none; cursor:pointer; background-color:#6b73ff; color:#fff; transition:0.3s;}
-.grupo-buttons button:hover { background-color:#000dff; }
-.grupos-container { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; }
-
-/* CHAT APP */
-.chat-app { width:400px; max-width:95%; display:flex; flex-direction:column; gap:10px; }
-.chat-header { display:flex; justify-content:center; align-items:center; color:#fff; }
-.chat-container { background-color:#fff; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    display:flex; flex-direction:column; padding:15px; }
-#mensajes { height:250px; overflow-y:auto; display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
-#mensajes::-webkit-scrollbar { width:8px; }
-#mensajes::-webkit-scrollbar-thumb { background-color:#6b73ff; border-radius:4px; }
-.mensaje { padding:10px 15px; border-radius:20px; max-width:70%; word-wrap:break-word; animation:fadeIn 0.3s; }
-.mensaje.usuario { background-color:#000dff; color:#fff; align-self:flex-end; border-bottom-right-radius:0; }
-.mensaje.sistema { background-color:#e0e0ff; color:#000; align-self:flex-start; border-bottom-left-radius:0; }
-.mensaje img, .mensaje video { max-width:150px; border-radius:10px; display:block; margin-bottom:5px; }
-@keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
-
-/* INPUT */
-.input-group { position:relative; display:flex; }
-input#mensaje { flex:1; padding:10px 15px; border-radius:10px 0 0 10px; border:1px solid #ccc; font-size:16px; }
-button#enviarBtn { background-color:#000dff; color:#fff; border:none; padding:10px 20px; border-radius:0 10px 10px 0; cursor:pointer; transition:0.3s; }
-button#enviarBtn:hover { background-color:#6b73ff; }
-
-/* BOTÓN OPCIONES */
-#opcionesBtn { width:40px; font-size:20px; border-radius:50%; border:none; background-color:#6b73ff; color:white; cursor:pointer; margin-left:5px; }
-#opcionesBtn:hover { background-color:#000dff; }
-.menu-opciones { position:absolute; bottom:50px; right:45px; background:#fff; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); padding:10px; display:flex; flex-direction:column; gap:5px; z-index:100; }
-.menu-opciones .opcion { padding:5px 10px; border:none; background:none; cursor:pointer; text-align:left; font-size:16px; }
-.menu-opciones .opcion:hover { background-color:#e0e0ff; border-radius:5px; }
+button#loginBtn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #000dff, #6b73ff);
+}
