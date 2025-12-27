@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     // GRUPOS
-    let grupos = {};
+    let grupos = {};          // Almacena los mensajes de cada grupo
+    let misGrupos = [];       // Grupos que el usuario ha creado o se unió
     let grupoActual = null;
     const listaGrupos = document.getElementById("listaGrupos");
 
@@ -28,7 +29,9 @@ document.addEventListener("DOMContentLoaded", function(){
         listaGrupos.innerHTML = "";
         for(const nombre in grupos){
             const grupoDiv = document.createElement("div");
-            grupoDiv.style.display="flex"; grupoDiv.style.gap="5px"; marginBottom="5px";
+            grupoDiv.style.display="flex"; 
+            grupoDiv.style.gap="5px"; 
+            grupoDiv.style.marginBottom="5px";
 
             const nombreBtn = document.createElement("button");
             nombreBtn.textContent = nombre;
@@ -36,7 +39,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
             const unirseBtn = document.createElement("button");
             unirseBtn.textContent = "Unirse";
-            unirseBtn.onclick = ()=> entrarGrupo(nombre);
+            unirseBtn.onclick = ()=> {
+                if(!misGrupos.includes(nombre)) misGrupos.push(nombre);
+                entrarGrupo(nombre);
+            };
 
             grupoDiv.appendChild(nombreBtn);
             grupoDiv.appendChild(unirseBtn);
@@ -44,22 +50,41 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    // CREAR GRUPO
     document.getElementById("btnCrear").addEventListener("click", ()=>{
         const nombre = prompt("Nombre del grupo:");
         if(nombre && !grupos[nombre]){
             grupos[nombre] = [];
+            if(!misGrupos.includes(nombre)) misGrupos.push(nombre);
             mostrarGrupos();
         }
     });
 
-    document.getElementById("btnUnirse").addEventListener("click", ()=> {
-        alert("Haz clic en 'Unirse' en los botones de la lista de grupos");
+    // UNIRSE A GRUPO
+    document.getElementById("btnUnirse").addEventListener("click", ()=>{
+        const gruposDisponibles = Object.keys(grupos).filter(g => !misGrupos.includes(g));
+        if(gruposDisponibles.length === 0) return alert("No hay grupos disponibles para unirse.");
+        const nombre = prompt("Grupos disponibles: " + gruposDisponibles.join(", ") + "\nEscribe el nombre para unirte:");
+        if(nombre && gruposDisponibles.includes(nombre)){
+            misGrupos.push(nombre);
+            entrarGrupo(nombre);
+        } else {
+            alert("Grupo no válido.");
+        }
     });
 
+    // MIS GRUPOS
     document.getElementById("btnMisGrupos").addEventListener("click", ()=>{
-        alert("Aquí se mostrarán tus grupos creados o a los que perteneces");
+        if(misGrupos.length === 0) return alert("No tienes grupos creados o unidos.");
+        const nombre = prompt("Tus grupos: " + misGrupos.join(", ") + "\nEscribe el nombre para entrar:");
+        if(nombre && misGrupos.includes(nombre)){
+            entrarGrupo(nombre);
+        } else {
+            alert("Grupo no válido.");
+        }
     });
 
+    // ENTRAR A GRUPO
     function entrarGrupo(nombre){
         grupoActual = nombre;
         grupoScreen.style.display="none";
@@ -85,33 +110,43 @@ document.addEventListener("DOMContentLoaded", function(){
 
         if(archivo){
             if(archivo.type.startsWith("image/")){
-                const img = document.createElement("img"); img.src=URL.createObjectURL(archivo); nuevoMensaje.appendChild(img);
+                const img = document.createElement("img"); 
+                img.src=URL.createObjectURL(archivo); 
+                nuevoMensaje.appendChild(img);
             }
             if(archivo.type.startsWith("video/")){
-                const video = document.createElement("video"); video.src=URL.createObjectURL(archivo); video.controls=true; nuevoMensaje.appendChild(video);
+                const video = document.createElement("video"); 
+                video.src=URL.createObjectURL(archivo); 
+                video.controls=true; 
+                nuevoMensaje.appendChild(video);
             }
         }
 
         const p=document.createElement("p");
-        p.textContent=texto; nuevoMensaje.appendChild(p);
+        p.textContent=texto; 
+        nuevoMensaje.appendChild(p);
         mensajesDiv.appendChild(nuevoMensaje);
         mensajesDiv.scrollTop=mensajesDiv.scrollHeight;
 
         if(grupoActual){ grupos[grupoActual].push({usuario:tipo,mensaje:texto,archivo}); }
     }
 
+    // ENVIAR MENSAJE
     const enviarBtn = document.getElementById("enviarBtn");
     const mensajeInput = document.getElementById("mensaje");
 
     enviarBtn.addEventListener("click", ()=>{
         if(!grupoActual) return alert("Primero entra a un grupo");
         const texto = mensajeInput.value.trim();
-        if(texto){ agregarMensaje(texto,"usuario"); mensajeInput.value=""; }
+        if(texto){ 
+            agregarMensaje(texto,"usuario"); 
+            mensajeInput.value=""; 
+        }
     });
 
     mensajeInput.addEventListener("keypress", e=>{ if(e.key==="Enter") enviarBtn.click(); });
 
-    // OPCIONES BOTÓN "+"
+    // BOTÓN "+" OPCIONES
     const opcionesBtn = document.getElementById("opcionesBtn");
     const menuOpciones = document.getElementById("menuOpciones");
 
@@ -134,4 +169,3 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
 });
-
