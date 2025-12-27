@@ -1,31 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Real con Login</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="login-container" id="loginContainer">
-        <h1>Iniciar Sesión</h1>
-        <input type="text" id="username" placeholder="Nombre de usuario">
-        <button id="loginBtn">Entrar</button>
-    </div>
+document.addEventListener("DOMContentLoaded", function() {
+    const loginContainer = document.getElementById("loginContainer");
+    const chatContainer = document.getElementById("chatContainer");
+    const loginBtn = document.getElementById("loginBtn");
+    const usernameInput = document.getElementById("username");
+    const chatTitle = document.getElementById("chatTitle");
 
-    <div class="chat-container" id="chatContainer" style="display:none;">
-        <h1 id="chatTitle">Chat Real</h1>
+    const enviarBtn = document.getElementById("enviarBtn");
+    const mensajeInput = document.getElementById("mensaje");
+    const mensajesDiv = document.getElementById("mensajes");
 
-        <div id="mensajes"></div>
+    let username = "";
 
-        <div class="input-group">
-            <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
-            <button id="enviarBtn">Enviar</button>
-        </div>
-    </div>
+    // LOGIN
+    loginBtn.addEventListener("click", function() {
+        const nombre = usernameInput.value.trim();
+        if(nombre !== ""){
+            username = nombre;
+            chatTitle.textContent = "Chat de " + username;
+            loginContainer.style.display = "none";
+            chatContainer.style.display = "flex";
+        }
+    });
 
-    <script src="script.js" defer></script>
-</body>
+    // FUNCIONES DE MENSAJE
+    function agregarMensaje(texto, tipo) {
+        const nuevoMensaje = document.createElement("p");
+        nuevoMensaje.textContent = texto;
+        nuevoMensaje.classList.add("mensaje", tipo);
+        mensajesDiv.appendChild(nuevoMensaje);
+        mensajesDiv.scrollTop = mensajesDiv.scrollHeight; // scroll automático
+
+        // Desaparecer mensaje después de 10 segundos
+        setTimeout(() => {
+            nuevoMensaje.remove();
+        }, 10000); // 10000 ms = 10 segundos
+    }
+
+    // ENVIAR MENSAJE
+    enviarBtn.addEventListener("click", function() {
+        const texto = mensajeInput.value.trim();
+        if (texto !== "") {
+            agregarMensaje(texto, "usuario");
+            mensajeInput.value = "";
+
+            // Respuesta simulada del sistema
+            setTimeout(() => {
+                agregarMensaje("Respuesta automática: " + texto, "sistema");
+            }, 500);
+        }
+    });
+
+    // Enviar con Enter
+    mensajeInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            enviarBtn.click();
+        }
+    });
+});
+
 </html>
+
 
 
