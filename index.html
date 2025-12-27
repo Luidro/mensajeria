@@ -1,80 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini Plataforma de Mensajes</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:20px; }
-    h1 { text-align:center; }
-    .container { max-width:600px; margin:0 auto; background:white; padding:20px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
-    .input-group { margin-bottom:20px; }
-    label { font-weight:600; }
-    input, textarea { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #aaa; }
-    #preview { margin-top:20px; }
-    .message-card { background:#eef; padding:10px; border-radius:8px; margin-top:10px; }
-    img, video { width:100%; border-radius:8px; margin-top:10px; }
-    button { padding:10px 15px; background:#007bff; color:white; border:none; border-radius:8px; cursor:pointer; }
-    button:hover { background:#005fcc; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajería</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase (versión modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmIroUmph5yG4OxP6eXhlKQEDl0ueiasM",
+            authDomain: "mensajeria-cdfc0.firebaseapp.com",
+            databaseURL: "https://mensajeria-cdfc0-default-rtdb.firebaseio.com",
+            projectId: "mensajeria-cdfc0",
+            storageBucket: "mensajeria-cdfc0.firebasestorage.app",
+            messagingSenderId: "573296483646",
+            appId: "1:573296483646:web:472c20290720c41097e06f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Exponer Firebase a script.js
+        window.db = db;
+        window.ref = ref;
+        window.push = push;
+        window.onValue = onValue;
+    </script>
+
+    <!-- Script principal -->
+    <script defer src="script.js"></script>
 </head>
+
 <body>
-  <h1>Enviar Mensajes, Fotos y Videos</h1>
-  <div class="container">
 
-    <div class="input-group">
-      <label>Mensaje de texto:</label>
-      <textarea id="textMessage" rows="3"></textarea>
+    <div class="container">
+        <h1>Mensajes Públicos</h1>
+
+        <!-- Área de mensajes -->
+        <div id="mensajes" class="mensajes"></div>
+
+        <!-- Formulario -->
+        <div class="formulario">
+            <input id="mensajeInput" type="text" placeholder="Escribe un mensaje..." />
+            <button id="enviarBtn">Enviar</button>
+        </div>
     </div>
-
-    <div class="input-group">
-      <label>Archivo (imagen/video):</label>
-      <input type="file" id="fileInput" accept="image/*,video/*" />
-    </div>
-
-    <button onclick="sendMessage()">Enviar</button>
-
-    <div id="messages"></div>
-  </div>
-
-<script>
-function sendMessage() {
-  const text = document.getElementById('textMessage').value;
-  const file = document.getElementById('fileInput').files[0];
-
-  const container = document.getElementById('messages');
-  const card = document.createElement('div');
-  card.className = 'message-card';
-
-  if (text.trim() !== '') {
-    const p = document.createElement('p');
-    p.textContent = text;
-    card.appendChild(p);
-  }
-
-  if (file) {
-    const url = URL.createObjectURL(file);
-
-    if (file.type.startsWith('image/')) {
-      const img = document.createElement('img');
-      img.src = url;
-      card.appendChild(img);
-    }
-    else if (file.type.startsWith('video/')) {
-      const video = document.createElement('video');
-      video.src = url;
-      video.controls = true;
-      card.appendChild(video);
-    }
-  }
-
-  container.appendChild(card);
-
-  // reset
-  document.getElementById('textMessage').value = "";
-  document.getElementById('fileInput').value = "";
-}
-</script>
 
 </body>
 </html>
+
+
