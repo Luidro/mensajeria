@@ -1,7 +1,7 @@
 /* FONDO GENERAL */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url("https://i.pinimg.com/736x/05/7b/59/057b59d963841633a24c8d6f2bbbb7d5.jpg");
+    background-image: url("https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg");
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -80,4 +80,3 @@ button#enviarBtn:hover { background-color:#6b73ff; }
 .menu-opciones { position:absolute; bottom:50px; right:45px; background:#fff; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); padding:10px; display:flex; flex-direction:column; gap:5px; z-index:100; }
 .menu-opciones .opcion { padding:5px 10px; border:none; background:none; cursor:pointer; text-align:left; font-size:16px; }
 .menu-opciones .opcion:hover { background-color:#e0e0ff; border-radius:5px; }
-
