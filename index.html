@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Profesional - Beta</title>
+    <title>Chat Profesional - Final</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,33 +15,49 @@
         <button id="loginBtn">Entrar</button>
     </div>
 
+    <!-- PANTALLA DE GESTIÓN DE GRUPOS -->
+    <div id="grupoScreen" style="display:none;">
+        <h2 id="bienvenida">Bienvenido, Usuario</h2>
+        <div class="grupo-buttons">
+            <button id="btnUnirse">Unirse a Grupo</button>
+            <button id="btnCrear">Crear Grupo</button>
+            <button id="btnMisGrupos">Grupos Creados</button>
+        </div>
+        <div id="listaGrupos" class="grupos-container"></div>
+    </div>
+
     <!-- CHAT PRINCIPAL -->
     <div class="chat-app" id="chatApp" style="display:none;">
-
-        <!-- Encabezado -->
         <div class="chat-header">
             <h1 id="chatTitle">Chat</h1>
-            <div class="chat-buttons">
-                <button id="crearGrupoBtn">Crear Grupo</button>
-                <button id="cambiarColorBtn">Personalizar Colores</button>
-                <input type="file" id="subirArchivo" accept="image/*,video/*">
-            </div>
         </div>
 
-        <!-- Lista de grupos -->
-        <div id="gruposContainer" class="grupos-container"></div>
-
-        <!-- Contenedor de chat -->
         <div class="chat-container" id="chatContainer">
             <div id="mensajes"></div>
             <div class="input-group">
                 <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
+                <button id="opcionesBtn">+</button>
+                <div id="menuOpciones" class="menu-opciones" style="display:none;">
+                    <label for="subirArchivo" class="opcion">📷 Imagen</label>
+                    <label for="subirVideo" class="opcion">🎥 Video</label>
+                    <button class="opcion" id="emojiBtn">😊 Emoji</button>
+                    <button class="opcion" id="archivoBtn">📎 Archivo</button>
+                </div>
                 <button id="enviarBtn">Enviar</button>
             </div>
         </div>
-
     </div>
+
+    <!-- Inputs ocultos para archivos -->
+    <input type="file" id="subirArchivo" accept="image/*" style="display:none;">
+    <input type="file" id="subirVideo" accept="video/*" style="display:none;">
+    <input type="file" id="archivo" style="display:none;">
 
     <script src="script.js" defer></script>
 </body>
 </html>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
+
