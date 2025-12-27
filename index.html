@@ -3,56 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensajería</title>
-
-    <!-- Estilos -->
+    <title>Chat Real con Login</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Firebase (versión modular) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBmIroUmph5yG4OxP6eXhlKQEDl0ueiasM",
-            authDomain: "mensajeria-cdfc0.firebaseapp.com",
-            databaseURL: "https://mensajeria-cdfc0-default-rtdb.firebaseio.com",
-            projectId: "mensajeria-cdfc0",
-            storageBucket: "mensajeria-cdfc0.firebasestorage.app",
-            messagingSenderId: "573296483646",
-            appId: "1:573296483646:web:472c20290720c41097e06f"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // Exponer Firebase a script.js
-        window.db = db;
-        window.ref = ref;
-        window.push = push;
-        window.onValue = onValue;
-    </script>
-
-    <!-- Script principal -->
-    <script defer src="script.js"></script>
 </head>
-
 <body>
+    <div class="login-container" id="loginContainer">
+        <h1>Iniciar Sesión</h1>
+        <input type="text" id="username" placeholder="Nombre de usuario">
+        <button id="loginBtn">Entrar</button>
+    </div>
 
-    <div class="container">
-        <h1>Mensajes Públicos</h1>
+    <div class="chat-container" id="chatContainer" style="display:none;">
+        <h1 id="chatTitle">Chat Real</h1>
 
-        <!-- Área de mensajes -->
-        <div id="mensajes" class="mensajes"></div>
+        <div id="mensajes"></div>
 
-        <!-- Formulario -->
-        <div class="formulario">
-            <input id="mensajeInput" type="text" placeholder="Escribe un mensaje..." />
+        <div class="input-group">
+            <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
             <button id="enviarBtn">Enviar</button>
         </div>
     </div>
 
+    <script src="script.js" defer></script>
 </body>
 </html>
-
-
