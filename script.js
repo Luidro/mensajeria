@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-    // LOGIN
+    // LOGI
     const loginContainer = document.getElementById("loginContainer");
     const grupoScreen = document.getElementById("grupoScreen");
     const chatApp = document.getElementById("chatApp");
@@ -169,3 +169,4 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
 });
+
