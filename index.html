@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Profesional</title>
+    <title>Chat Profesional - Beta</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <!-- LOGIN -->
     <div class="login-container" id="loginContainer">
         <h1>Iniciar Sesión</h1>
@@ -14,14 +15,31 @@
         <button id="loginBtn">Entrar</button>
     </div>
 
-    <!-- CHAT -->
-    <div class="chat-container" id="chatContainer" style="display:none;">
-        <h1 id="chatTitle">Chat</h1>
-        <div id="mensajes"></div>
-        <div class="input-group">
-            <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
-            <button id="enviarBtn">Enviar</button>
+    <!-- CHAT PRINCIPAL -->
+    <div class="chat-app" id="chatApp" style="display:none;">
+
+        <!-- Encabezado -->
+        <div class="chat-header">
+            <h1 id="chatTitle">Chat</h1>
+            <div class="chat-buttons">
+                <button id="crearGrupoBtn">Crear Grupo</button>
+                <button id="cambiarColorBtn">Personalizar Colores</button>
+                <input type="file" id="subirArchivo" accept="image/*,video/*">
+            </div>
         </div>
+
+        <!-- Lista de grupos -->
+        <div id="gruposContainer" class="grupos-container"></div>
+
+        <!-- Contenedor de chat -->
+        <div class="chat-container" id="chatContainer">
+            <div id="mensajes"></div>
+            <div class="input-group">
+                <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
+                <button id="enviarBtn">Enviar</button>
+            </div>
+        </div>
+
     </div>
 
     <script src="script.js" defer></script>
