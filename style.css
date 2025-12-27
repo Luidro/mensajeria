@@ -1,83 +1,127 @@
-/* Fondo y tipografía */
+/* FONDO GENERAL */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #6b73ff, #000dff);
-    color: #333;
+    background-image: url("https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
 }
 
 /* LOGIN */
 .login-container {
-    background-color: #f5f5f5;
-    width: 300px;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 320px;
     max-width: 90%;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    color: #ffffff;
+    text-align: center;
 }
 
 input#username {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border-radius: 12px;
-    border: 1px solid #ccc;
+    border: none;
+    outline: none;
     font-size: 16px;
 }
 
 button#loginBtn {
     width: 100%;
-    border-radius: 12px;
     padding: 12px;
-    background-color: #000dff;
-    color: #fff;
+    border-radius: 12px;
     border: none;
+    background-color: #6b73ff;
+    color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 button#loginBtn:hover {
-    background-color: #6b73ff;
+    background-color: #000dff;
 }
 
-/* CHAT */
+/* CHAT APP */
+.chat-app {
+    width: 400px;
+    max-width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* HEADER */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.chat-buttons button, .chat-buttons input[type=file] {
+    margin-left: 5px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.chat-buttons button:hover {
+    background-color: #000dff;
+    color: #fff;
+}
+
+/* GRUPOS */
+.grupos-container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.grupos-container button {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #6b73ff;
+    color: #fff;
+    transition: background 0.3s;
+}
+
+.grupos-container button:hover {
+    background-color: #000dff;
+}
+
+/* CONTENEDOR CHAT */
 .chat-container {
     background-color: #fff;
-    width: 400px;
-    max-width: 90%;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-}
-
-/* Título chat */
-.chat-container h1 {
-    text-align: center;
-    color: #000dff;
-    margin-bottom: 20px;
-}
-
-/* Área de mensajes */
-#mensajes {
-    border-radius: 10px;
     padding: 15px;
+}
+
+/* AREA DE MENSAJES */
+#mensajes {
     height: 250px;
     overflow-y: auto;
-    background-color: #f9f9f9;
-    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
 }
 
 #mensajes::-webkit-scrollbar {
@@ -89,11 +133,10 @@ button#loginBtn:hover {
     border-radius: 4px;
 }
 
-/* Burbujas de mensajes */
+/* MENSAJES */
 .mensaje {
     padding: 10px 15px;
     border-radius: 20px;
-    margin: 5px 0;
     max-width: 70%;
     word-wrap: break-word;
     animation: fadeIn 0.3s;
@@ -113,12 +156,19 @@ button#loginBtn:hover {
     border-bottom-left-radius: 0;
 }
 
+.mensaje img, .mensaje video {
+    max-width: 150px;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 5px;
+}
+
 @keyframes fadeIn {
     from {opacity: 0; transform: translateY(10px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
-/* Input + botón */
+/* INPUT */
 .input-group {
     display: flex;
 }
@@ -128,7 +178,6 @@ input#mensaje {
     padding: 10px 15px;
     border-radius: 10px 0 0 10px;
     border: 1px solid #ccc;
-    outline: none;
     font-size: 16px;
 }
 
@@ -137,7 +186,6 @@ button#enviarBtn {
     color: #fff;
     border: none;
     padding: 10px 20px;
-    font-size: 16px;
     border-radius: 0 10px 10px 0;
     cursor: pointer;
     transition: background 0.3s;
