@@ -1,59 +1,309 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Profesional - Final</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat Profesional - Final</title>
+<style>
+/* FONDO GENERAL */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url("https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 0;
+}
+
+/* LOGIN */
+.login-container {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.login-container:hover { transform: scale(1.03); box-shadow: 0 15px 30px rgba(0,0,0,0.5);}
+.login-container h1 { margin-bottom: 20px; color: #fff; text-shadow: 1px 1px 5px rgba(0,0,0,0.5);}
+input#username {
+    width: 100%; padding: 12px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background-color: rgba(255,255,255,0.2);
+    color: #fff; font-size: 16px; margin-bottom: 20px;
+    backdrop-filter: blur(5px);
+}
+input#username::placeholder { color: rgba(255,255,255,0.7); }
+button#loginBtn {
+    width: 100%; padding: 12px; border-radius: 12px; border: none;
+    background: linear-gradient(90deg, #6b73ff, #000dff);
+    color: #fff; font-size: 16px; cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+button#loginBtn:hover { transform: scale(1.05); background: linear-gradient(90deg, #000dff, #6b73ff); }
+
+/* GRUPOS */
+#grupoScreen { color:#fff; text-align:center; }
+.grupo-buttons { display:flex; justify-content:center; gap:10px; margin-bottom:20px; }
+.grupo-buttons button { padding:10px 15px; border-radius:10px; border:none; cursor:pointer; background-color:#6b73ff; color:#fff; transition:0.3s;}
+.grupo-buttons button:hover { background-color:#000dff; }
+.grupos-container { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; }
+
+/* CHAT */
+.chat-app { width:400px; max-width:95%; display:flex; flex-direction:column; gap:10px; }
+.chat-header { display:flex; justify-content:center; align-items:center; color:#fff; }
+.chat-container { background-color:#fff; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    display:flex; flex-direction:column; padding:15px; }
+#mensajes { height:250px; overflow-y:auto; display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+#mensajes::-webkit-scrollbar { width:8px; }
+#mensajes::-webkit-scrollbar-thumb { background-color:#6b73ff; border-radius:4px; }
+.mensaje { padding:10px 15px; border-radius:20px; max-width:70%; word-wrap:break-word; animation:fadeIn 0.3s; }
+.mensaje.usuario { background-color:#000dff; color:#fff; align-self:flex-end; border-bottom-right-radius:0; }
+.mensaje.sistema { background-color:#e0e0ff; color:#000; align-self:flex-start; border-bottom-left-radius:0; }
+.mensaje img, .mensaje video { max-width:150px; border-radius:10px; display:block; margin-bottom:5px; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+/* INPUT */
+.input-group { position:relative; display:flex; }
+input#mensaje { flex:1; padding:10px 15px; border-radius:10px 0 0 10px; border:1px solid #ccc; font-size:16px; }
+button#enviarBtn { background-color:#000dff; color:#fff; border:none; padding:10px 20px; border-radius:0 10px 10px 0; cursor:pointer; transition:0.3s; }
+button#enviarBtn:hover { background-color:#6b73ff; }
+
+/* BOTÓN OPCIONES */
+#opcionesBtn { width:40px; font-size:20px; border-radius:50%; border:none; background-color:#6b73ff; color:white; cursor:pointer; margin-left:5px; }
+#opcionesBtn:hover { background-color:#000dff; }
+.menu-opciones { position:absolute; bottom:50px; right:45px; background:#fff; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); padding:10px; display:flex; flex-direction:column; gap:5px; z-index:100; }
+.menu-opciones .opcion { padding:5px 10px; border:none; background:none; cursor:pointer; text-align:left; font-size:16px; }
+.menu-opciones .opcion:hover { background-color:#e0e0ff; border-radius:5px; }
+
+</style>
 </head>
 <body>
 
-    <!-- LOGIN -->
-    <div class="login-container" id="loginContainer">
-        <h1>Iniciar Sesión</h1>
-        <input type="text" id="username" placeholder="Nombre de usuario">
-        <button id="loginBtn">Entrar</button>
+<!-- LOGIN -->
+<div class="login-container" id="loginContainer">
+    <h1>Iniciar Sesión</h1>
+    <input type="text" id="username" placeholder="Nombre de usuario">
+    <button id="loginBtn">Entrar</button>
+</div>
+
+<!-- PANTALLA DE GRUPOS -->
+<div id="grupoScreen" style="display:none;">
+    <h2 id="bienvenida">Bienvenido, Usuario</h2>
+    <div class="grupo-buttons">
+        <button id="btnUnirse">Unirse a Grupo</button>
+        <button id="btnCrear">Crear Grupo</button>
+        <button id="btnMisGrupos">Mis Grupos</button>
     </div>
+    <div id="listaGrupos" class="grupos-container"></div>
+</div>
 
-    <!-- PANTALLA DE GESTIÓN DE GRUPOS+ -->
-    <div id="grupoScreen" style="display:none;">
-        <h2 id="bienvenida">Bienvenido, Usuario</h2>
-        <div class="grupo-buttons">
-            <button id="btnUnirse">Unirse a Grupo</button>
-            <button id="btnCrear">Crear Grupo</button>
-            <button id="btnMisGrupos">Mis Grupos</button>
-        </div>
-        <div id="listaGrupos" class="grupos-container"></div>
+<!-- CHAT -->
+<div class="chat-app" id="chatApp" style="display:none;">
+    <div class="chat-header">
+        <h1 id="chatTitle">Chat</h1>
     </div>
-
-    <!-- CHAT PRINCIPAL -->
-    <div class="chat-app" id="chatApp" style="display:none;">
-        <div class="chat-header">
-            <h1 id="chatTitle">Chat</h1>
-        </div>
-
-        <div class="chat-container" id="chatContainer">
-            <div id="mensajes"></div>
-            <div class="input-group">
-                <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
-                <button id="opcionesBtn">+</button>
-                <div id="menuOpciones" class="menu-opciones" style="display:none;">
-                    <label for="subirArchivo" class="opcion">📷 Imagen</label>
-                    <label for="subirVideo" class="opcion">🎥 Video</label>
-                    <button class="opcion" id="emojiBtn">😊 Emoji</button>
-                    <button class="opcion" id="archivoBtn">📎 Archivo</button>
-                </div>
-                <button id="enviarBtn">Enviar</button>
+    <div class="chat-container">
+        <div id="mensajes"></div>
+        <div class="input-group">
+            <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
+            <button id="opcionesBtn">+</button>
+            <div id="menuOpciones" class="menu-opciones" style="display:none;">
+                <label for="subirArchivo" class="opcion">📷 Imagen</label>
+                <label for="subirVideo" class="opcion">🎥 Video</label>
+                <button class="opcion" id="emojiBtn">😊 Emoji</button>
+                <button class="opcion" id="archivoBtn">📎 Archivo</button>
             </div>
+            <button id="enviarBtn">Enviar</button>
         </div>
     </div>
+</div>
 
-    <!-- Inputs ocultos para archivos -->
-    <input type="file" id="subirArchivo" accept="image/*" style="display:none;">
-    <input type="file" id="subirVideo" accept="video/*" style="display:none;">
-    <input type="file" id="archivo" style="display:none;">
+<!-- INPUTS OCULTOS -->
+<input type="file" id="subirArchivo" accept="image/*" style="display:none;">
+<input type="file" id="subirVideo" accept="video/*" style="display:none;">
+<input type="file" id="archivo" style="display:none;">
 
-    <script src="script.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    // LOGIN
+    const loginContainer = document.getElementById("loginContainer");
+    const grupoScreen = document.getElementById("grupoScreen");
+    const chatApp = document.getElementById("chatApp");
+    const loginBtn = document.getElementById("loginBtn");
+    const usernameInput = document.getElementById("username");
+    const bienvenida = document.getElementById("bienvenida");
+    let username = "";
+
+    loginBtn.addEventListener("click", () => {
+        const name = usernameInput.value.trim();
+        if(name){
+            username = name;
+            loginContainer.style.display="none";
+            grupoScreen.style.display="block";
+            bienvenida.textContent = "Bienvenido, " + username;
+        }
+    });
+
+    // GRUPOS
+    let grupos = {};
+    let misGrupos = [];
+    let grupoActual = null;
+    const listaGrupos = document.getElementById("listaGrupos");
+
+    function mostrarGrupos() {
+        listaGrupos.innerHTML = "";
+        for(const nombre in grupos){
+            const grupoDiv = document.createElement("div");
+            grupoDiv.style.display="flex"; 
+            grupoDiv.style.gap="5px"; 
+            grupoDiv.style.marginBottom="5px";
+
+            const nombreBtn = document.createElement("button");
+            nombreBtn.textContent = nombre;
+            nombreBtn.onclick = ()=> entrarGrupo(nombre);
+
+            const unirseBtn = document.createElement("button");
+            unirseBtn.textContent = "Unirse";
+            unirseBtn.onclick = ()=> {
+                if(!misGrupos.includes(nombre)) misGrupos.push(nombre);
+                entrarGrupo(nombre);
+            };
+
+            grupoDiv.appendChild(nombreBtn);
+            grupoDiv.appendChild(unirseBtn);
+            listaGrupos.appendChild(grupoDiv);
+        }
+    }
+
+    document.getElementById("btnCrear").addEventListener("click", ()=>{
+        const nombre = prompt("Nombre del grupo:");
+        if(nombre && !grupos[nombre]){
+            grupos[nombre] = [];
+            if(!misGrupos.includes(nombre)) misGrupos.push(nombre);
+            mostrarGrupos();
+        }
+    });
+
+    document.getElementById("btnUnirse").addEventListener("click", ()=>{
+        const gruposDisponibles = Object.keys(grupos).filter(g => !misGrupos.includes(g));
+        if(gruposDisponibles.length === 0) return alert("No hay grupos disponibles para unirse.");
+        const nombre = prompt("Grupos disponibles: " + gruposDisponibles.join(", ") + "\nEscribe el nombre para unirte:");
+        if(nombre && gruposDisponibles.includes(nombre)){
+            misGrupos.push(nombre);
+            entrarGrupo(nombre);
+        } else { alert("Grupo no válido."); }
+    });
+
+    document.getElementById("btnMisGrupos").addEventListener("click", ()=>{
+        if(misGrupos.length === 0) return alert("No tienes grupos creados o unidos.");
+        const nombre = prompt("Tus grupos: " + misGrupos.join(", ") + "\nEscribe el nombre para entrar:");
+        if(nombre && misGrupos.includes(nombre)){
+            entrarGrupo(nombre);
+        } else { alert("Grupo no válido."); }
+    });
+
+    function entrarGrupo(nombre){
+        grupoActual = nombre;
+        grupoScreen.style.display="none";
+        chatApp.style.display="flex";
+        document.getElementById("chatTitle").textContent = "Grupo: "+nombre;
+        mostrarMensajes();
+    }
+
+    const mensajesDiv = document.getElementById("mensajes");
+
+    function mostrarMensajes(){
+        mensajesDiv.innerHTML="";
+        if(!grupoActual) return;
+        grupos[grupoActual].forEach(msg => {
+            agregarMensaje(msg.mensaje,msg.usuario,msg.archivo,false);
+        });
+    }
+
+    function agregarMensaje(texto,tipo,archivo=null,efectoEscribir=false){
+        const nuevoMensaje = document.createElement("div");
+        nuevoMensaje.classList.add("mensaje",tipo);
+
+        if(archivo){
+            if(archivo.type.startsWith("image/")){
+                const img = document.createElement("img"); 
+                img.src=URL.createObjectURL(archivo); 
+                nuevoMensaje.appendChild(img);
+            }
+            if(archivo.type.startsWith("video/")){
+                const video = document.createElement("video"); 
+                video.src=URL.createObjectURL(archivo); 
+                video.controls=true; 
+                nuevoMensaje.appendChild(video);
+            }
+        }
+
+        const p=document.createElement("p");
+        p.textContent=texto; 
+        nuevoMensaje.appendChild(p);
+        mensajesDiv.appendChild(nuevoMensaje);
+        mensajesDiv.scrollTop=mensajesDiv.scrollHeight;
+
+        if(grupoActual){ grupos[grupoActual].push({usuario:tipo,mensaje:texto,archivo}); }
+    }
+
+    const enviarBtn = document.getElementById("enviarBtn");
+    const mensajeInput = document.getElementById("mensaje");
+
+    enviarBtn.addEventListener("click", ()=>{
+        if(!grupoActual) return alert("Primero entra a un grupo");
+        const texto = mensajeInput.value.trim();
+        if(texto){ 
+            agregarMensaje(texto,"usuario"); 
+            mensajeInput.value=""; 
+        }
+    });
+
+    mensajeInput.addEventListener("keypress", e=>{ if(e.key==="Enter") enviarBtn.click(); });
+
+    const opcionesBtn = document.getElementById("opcionesBtn");
+    const menuOpciones = document.getElementById("menuOpciones");
+
+    opcionesBtn.addEventListener("click", ()=> {
+        menuOpciones.style.display = menuOpciones.style.display==="none" ? "flex":"none";
+    });
+
+    document.getElementById("subirArchivo").addEventListener("change", e=>{
+        const file=e.target.files[0]; if(file) agregarMensaje("", "usuario", file,false);
+    });
+
+    document.getElementById("subirVideo").addEventListener("change", e=>{
+        const file=e.target.files[0]; if(file) agregarMensaje("", "usuario", file,false);
+    });
+
+    document.getElementById("emojiBtn").addEventListener("click", ()=> alert("Aquí se puede abrir selector de emojis"));
+
+    document.getElementById("archivo").addEventListener("change", e=>{
+        const file=e.target.files[0]; if(file) agregarMensaje("Archivo: "+file.name,"usuario",file,false);
+    });
+
+});
+</script>
+
 </body>
 </html>
-
