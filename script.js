@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Elementos login
     const loginContainer = document.getElementById("loginContainer");
     const chatContainer = document.getElementById("chatContainer");
     const loginBtn = document.getElementById("loginBtn");
     const usernameInput = document.getElementById("username");
     const chatTitle = document.getElementById("chatTitle");
 
+    // Elementos chat
     const enviarBtn = document.getElementById("enviarBtn");
     const mensajeInput = document.getElementById("mensaje");
     const mensajesDiv = document.getElementById("mensajes");
@@ -22,18 +24,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // FUNCIONES DE MENSAJE
-    function agregarMensaje(texto, tipo) {
+    // FUNCIONES MENSAJE
+    function agregarMensaje(texto, tipo, efectoEscribir=false) {
         const nuevoMensaje = document.createElement("p");
-        nuevoMensaje.textContent = texto;
         nuevoMensaje.classList.add("mensaje", tipo);
         mensajesDiv.appendChild(nuevoMensaje);
-        mensajesDiv.scrollTop = mensajesDiv.scrollHeight; // scroll automático
+        mensajesDiv.scrollTop = mensajesDiv.scrollHeight;
+
+        if(efectoEscribir){
+            let i = 0;
+            const interval = setInterval(() => {
+                nuevoMensaje.textContent += texto.charAt(i);
+                i++;
+                if(i >= texto.length) clearInterval(interval);
+            }, 30); // velocidad de escritura letra por letra
+        } else {
+            nuevoMensaje.textContent = texto;
+        }
 
         // Desaparecer mensaje después de 10 segundos
         setTimeout(() => {
             nuevoMensaje.remove();
-        }, 10000); // 10000 ms = 10 segundos
+        }, 10000);
     }
 
     // ENVIAR MENSAJE
@@ -43,22 +55,15 @@ document.addEventListener("DOMContentLoaded", function() {
             agregarMensaje(texto, "usuario");
             mensajeInput.value = "";
 
-            // Respuesta simulada del sistema
+            // Respuesta simulada del sistema con efecto de escritura
             setTimeout(() => {
-                agregarMensaje("Respuesta automática: " + texto, "sistema");
+                agregarMensaje("Respuesta automática: " + texto, "sistema", true);
             }, 500);
         }
     });
 
     // Enviar con Enter
     mensajeInput.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            enviarBtn.click();
-        }
+        if (e.key === "Enter") enviarBtn.click();
     });
 });
-
-</html>
-
-
-
