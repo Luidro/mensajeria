@@ -1,29 +1,31 @@
-// Referencia a /mensajes en Firebase
-const mensajesRef = ref(db, "mensajes");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Real con Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h1>Iniciar Sesión</h1>
+        <input type="text" id="username" placeholder="Nombre de usuario">
+        <button id="loginBtn">Entrar</button>
+    </div>
 
-// Enviar mensaje
-document.getElementById("enviarBtn").addEventListener("click", () => {
-    const texto = document.getElementById("mensajeInput").value;
+    <div class="chat-container" id="chatContainer" style="display:none;">
+        <h1 id="chatTitle">Chat Real</h1>
 
-    if (texto.trim() === "") return;
+        <div id="mensajes"></div>
 
-    push(mensajesRef, {
-        texto: texto,
-        fecha: Date.now()
-    });
+        <div class="input-group">
+            <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
+            <button id="enviarBtn">Enviar</button>
+        </div>
+    </div>
 
-    document.getElementById("mensajeInput").value = "";
-});
+    <script src="script.js" defer></script>
+</body>
+</html>
 
-// Mostrar mensajes en tiempo real
-onValue(mensajesRef, (snapshot) => {
-    const mensajesDiv = document.getElementById("mensajes");
-    mensajesDiv.innerHTML = "";
 
-    snapshot.forEach((child) => {
-        const data = child.val();
-        const p = document.createElement("p");
-        p.textContent = data.texto;
-        mensajesDiv.appendChild(p);
-    });
-});
