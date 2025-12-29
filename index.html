@@ -3,51 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkChat</title>
+    <title>Login Test</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial;
+            color: white;
+        }
 
-    <!-- Firebase -->
-    <script type="module" src="script.js" defer></script>
+        .login-box {
+            background: #222;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+            width: 280px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #welcome {
+            display: none;
+            font-size: 22px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- LOGIN -->
-    <div id="loginContainer" class="center-container">
-        <div class="login-box">
-            <h2>DarkChat</h2>
-            <input id="usernameInput" type="text" placeholder="Nombre de usuario">
-            <button id="loginBtn">Entrar</button>
-        </div>
+    <div class="login-box" id="loginBox">
+        <h2>Iniciar sesión</h2>
+        <input id="username" type="text" placeholder="Nombre de usuario">
+        <button id="loginBtn">Entrar</button>
     </div>
 
-    <!-- MENÚ -->
-    <div id="menuContainer" class="center-container hidden">
-        <div class="menu-box">
-            <h2 id="welcomeTitle">Bienvenido</h2>
+    <h2 id="welcome"></h2>
 
-            <div class="menu-buttons">
-                <button class="menuBtn" id="joinGroupBtn">Unirse a Grupo</button>
-                <button class="menuBtn" id="createGroupBtn">Crear Grupo</button>
-                <button class="menuBtn" id="myGroupsBtn">Mis Grupos</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CHAT -->
-    <div id="chatContainer" class="chat hidden">
-        <header>
-            <button id="backToMenu" class="backBtn">⬅</button>
-            <h3 id="chatTitle">Grupo</h3>
-        </header>
-
-        <div id="messages"></div>
-
-        <footer>
-            <input id="msgInput" type="text" placeholder="Escribe un mensaje...">
-            <button id="sendMsgBtn">Enviar</button>
-        </footer>
-    </div>
-
+    <script src="script.js"></script>
 </body>
 </html>
