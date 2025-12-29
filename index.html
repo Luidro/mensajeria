@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Test</title>
+    <title>DarkChat Login + Menú</title>
 
     <style>
         body {
@@ -17,7 +17,7 @@
             color: white;
         }
 
-        .login-box {
+        .box {
             background: #222;
             padding: 25px;
             border-radius: 12px;
@@ -26,7 +26,7 @@
             text-align: center;
         }
 
-        input {
+        input, button {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -35,31 +35,38 @@
         }
 
         button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 15px;
             background: #1e90ff;
             color: white;
-            border: none;
-            border-radius: 6px;
             cursor: pointer;
         }
 
-        #welcome {
+        .hidden {
             display: none;
-            font-size: 22px;
+        }
+
+        .menuBtn {
+            background: #333;
+            margin-top: 12px;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-box" id="loginBox">
+    <!-- LOGIN -->
+    <div class="box" id="loginBox">
         <h2>Iniciar sesión</h2>
         <input id="username" type="text" placeholder="Nombre de usuario">
         <button id="loginBtn">Entrar</button>
     </div>
 
-    <h2 id="welcome"></h2>
+    <!-- MENÚ -->
+    <div class="box hidden" id="menuBox">
+        <h2 id="welcomeTitle">Bienvenido</h2>
+
+        <button class="menuBtn" id="joinGroupBtn">Unirse a un grupo</button>
+        <button class="menuBtn" id="createGroupBtn">Crear grupo</button>
+        <button class="menuBtn" id="myGroupsBtn">Mis grupos</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
