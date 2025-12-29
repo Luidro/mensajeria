@@ -1,59 +1,125 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url('https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg') center/cover no-repeat fixed;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* Ocultar pantallas */
+.hidden {
+    display: none !important;
+}
+
+.center-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* LOGIN */
-.login-container {
-    position: relative;
-    z-index: 1;
-    background-color: rgba(255, 255, 255, 0.25); /* translúcido */
-    backdrop-filter: blur(10px); /* efecto desenfoque */
-    padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+.login-box {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    width: 330px;
+    text-align: center;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-box input {
+    width: 90%;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: none;
+}
+
+.login-box button {
+    margin-top: 20px;
+    width: 95%;
+    padding: 12px;
+    border: none;
+    background: #4c3ed9;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* MENÚ */
+.menu-box {
+    background: rgba(0,0,0,0.45);
+    padding: 30px;
+    border-radius: 18px;
+    width: 350px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.menu-buttons {
+    margin-top: 20px;
+}
+
+.menuBtn {
+    padding: 12px;
+    width: 80%;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #4037c7;
+    color: white;
+    cursor: pointer;
+}
+
+/* CHAT */
+.chat {
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    backdrop-filter: blur(4px);
+}
+
+.chat header {
+    display: flex;
     align-items: center;
-    text-align: center;
-    transition: all 0.3s ease;
+    padding: 10px;
+    background: rgba(0,0,0,0.5);
 }
 
-.login-container:hover {
-    transform: scale(1.03);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-}
-
-.login-container h1 {
-    margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-}
-
-input#username {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.5);
-    background-color: rgba(255,255,255,0.2);
-    color: #fff;
-    font-size: 16px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(5px);
-}
-
-input#username::placeholder {
-    color: rgba(255,255,255,0.7);
-}
-
-button#loginBtn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
+.backBtn {
+    background: transparent;
+    color: white;
     border: none;
-    background: linear-gradient(90deg, #6b73ff, #000dff);
-    color: #fff;
-    font-size: 16px;
+    font-size: 22px;
     cursor: pointer;
-    transition: transform 0.2s, background 0.3s;
 }
 
-button#loginBtn:hover {
-    transform: scale(1.05);
-    background: linear-gradient(90deg, #000dff, #6b73ff);
+#messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+footer {
+    display: flex;
+    padding: 10px;
+    background: rgba(0,0,0,0.5);
+}
+
+footer input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+footer button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: #4037c7;
+    border: none;
+    color: white;
+    border-radius: 8px;
 }
