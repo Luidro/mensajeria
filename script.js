@@ -1,7 +1,13 @@
+// ================= LOGIN =================
+
 const loginBtn = document.getElementById("loginBtn");
 const usernameInput = document.getElementById("username");
 const loginBox = document.getElementById("loginBox");
-const welcome = document.getElementById("welcome");
+
+const menuBox = document.getElementById("menuBox");
+const welcomeTitle = document.getElementById("welcomeTitle");
+
+let currentUser = "";
 
 loginBtn.addEventListener("click", () => {
     const name = usernameInput.value.trim();
@@ -11,10 +17,26 @@ loginBtn.addEventListener("click", () => {
         return;
     }
 
-    // Ocultar login
-    loginBox.style.display = "none";
+    currentUser = name;
 
-    // Mostrar mensaje de bienvenida
-    welcome.style.display = "block";
-    welcome.textContent = "Bienvenido, " + name + "!";
+    // Ocultar login y mostrar menú
+    loginBox.classList.add("hidden");
+    menuBox.classList.remove("hidden");
+
+    welcomeTitle.textContent = "Bienvenido, " + currentUser;
 });
+
+
+// ================= MENÚ (solo mensajes por ahora) =================
+
+document.getElementById("joinGroupBtn").onclick = () => {
+    alert("Aquí irá la pantalla para UNIRSE A UN GRUPO");
+};
+
+document.getElementById("createGroupBtn").onclick = () => {
+    alert("Aquí se podrá CREAR UN GRUPO");
+};
+
+document.getElementById("myGroupsBtn").onclick = () => {
+    alert("Aquí se verán LOS GRUPOS DEL USUARIO");
+};
