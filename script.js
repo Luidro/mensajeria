@@ -1,125 +1,87 @@
-body {
-    margin: 0;
-    padding: 0;
-    background: url('https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg') center/cover no-repeat fixed;
-    font-family: Arial, sans-serif;
-    color: white;
+/***********************
+ *      LOGIN
+ ***********************/
+const loginContainer = document.getElementById("loginContainer");
+const menuContainer = document.getElementById("menuContainer");
+const chatContainer = document.getElementById("chatContainer");
+
+const usernameInput = document.getElementById("usernameInput");
+const loginBtn = document.getElementById("loginBtn");
+
+let currentUser = "";
+let currentGroup = "";
+
+// LOGIN
+loginBtn.addEventListener("click", () => {
+    const name = usernameInput.value.trim();
+    if (name === "") return alert("Escribe un nombre");
+
+    currentUser = name;
+
+    loginContainer.classList.add("hidden");
+    menuContainer.classList.remove("hidden");
+
+    document.getElementById("welcomeTitle").innerText = "Bienvenido, " + currentUser;
+});
+
+
+/***********************
+ *     BOTONES MENÚ
+ ***********************/
+document.getElementById("joinGroupBtn").onclick = () => {
+    let g = prompt("ID del grupo:");
+    if (!g) return;
+
+    currentGroup = g;
+    openChat();
+};
+
+document.getElementById("createGroupBtn").onclick = () => {
+    let g = prompt("Nombre del grupo nuevo:");
+    if (!g) return;
+
+    currentGroup = g;
+    alert("Grupo creado: " + g);
+    openChat();
+};
+
+document.getElementById("myGroupsBtn").onclick = () => {
+    alert("Aún no tienes grupos guardados.");
+};
+
+
+/***********************
+ *      ABRIR CHAT
+ ***********************/
+function openChat() {
+    menuContainer.classList.add("hidden");
+    chatContainer.classList.remove("hidden");
+
+    document.getElementById("chatTitle").innerText = currentGroup;
 }
 
-/* Ocultar pantallas */
-.hidden {
-    display: none !important;
-}
 
-.center-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/***********************
+ *      VOLVER
+ ***********************/
+document.getElementById("backToMenu").onclick = () => {
+    chatContainer.classList.add("hidden");
+    menuContainer.classList.remove("hidden");
+};
 
-/* LOGIN */
-.login-box {
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    width: 330px;
-    text-align: center;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
 
-.login-box input {
-    width: 90%;
-    padding: 10px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: none;
-}
+/***********************
+ *  ENVIAR MENSAJE (demo)
+ ***********************/
+document.getElementById("sendBtn").onclick = () => {
+    let msg = document.getElementById("msgInput").value.trim();
+    if (msg === "") return;
 
-.login-box button {
-    margin-top: 20px;
-    width: 95%;
-    padding: 12px;
-    border: none;
-    background: #4c3ed9;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-}
+    let box = document.getElementById("messages");
 
-/* MENÚ */
-.menu-box {
-    background: rgba(0,0,0,0.45);
-    padding: 30px;
-    border-radius: 18px;
-    width: 350px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
+    let p = document.createElement("p");
+    p.innerHTML = `<b>${currentUser}:</b> ${msg}`;
 
-.menu-buttons {
-    margin-top: 20px;
-}
-
-.menuBtn {
-    padding: 12px;
-    width: 80%;
-    margin: 10px;
-    border-radius: 8px;
-    border: none;
-    background: #4037c7;
-    color: white;
-    cursor: pointer;
-}
-
-/* CHAT */
-.chat {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    backdrop-filter: blur(4px);
-}
-
-.chat header {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background: rgba(0,0,0,0.5);
-}
-
-.backBtn {
-    background: transparent;
-    color: white;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-#messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-}
-
-footer {
-    display: flex;
-    padding: 10px;
-    background: rgba(0,0,0,0.5);
-}
-
-footer input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-}
-
-footer button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    background: #4037c7;
-    border: none;
-    color: white;
-    border-radius: 8px;
-}
+    box.appendChild(p);
+    document.getElementById("msgInput").value = "";
+};
