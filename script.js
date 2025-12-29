@@ -1,42 +1,29 @@
-// ================= LOGIN =================
+const loginBox = document.getElementById("loginBox");
+const menuBox = document.getElementById("menuBox");
 
 const loginBtn = document.getElementById("loginBtn");
 const usernameInput = document.getElementById("username");
-const loginBox = document.getElementById("loginBox");
-
-const menuBox = document.getElementById("menuBox");
 const welcomeTitle = document.getElementById("welcomeTitle");
 
-let currentUser = "";
-
-loginBtn.addEventListener("click", () => {
+loginBtn.onclick = () => {
     const name = usernameInput.value.trim();
 
     if (name === "") {
-        alert("Escribe un nombre de usuario");
+        alert("Debes escribir un nombre");
         return;
     }
 
-    currentUser = name;
-
-    // Ocultar login y mostrar menú
+    // ocultar login
     loginBox.classList.add("hidden");
+
+    // mostrar menú
     menuBox.classList.remove("hidden");
 
-    welcomeTitle.textContent = "Bienvenido, " + currentUser;
-});
-
-
-// ================= MENÚ (solo mensajes por ahora) =================
-
-document.getElementById("joinGroupBtn").onclick = () => {
-    alert("Aquí irá la pantalla para UNIRSE A UN GRUPO");
+    // poner nombre
+    welcomeTitle.textContent = "Bienvenido, " + name;
 };
 
-document.getElementById("createGroupBtn").onclick = () => {
-    alert("Aquí se podrá CREAR UN GRUPO");
-};
-
-document.getElementById("myGroupsBtn").onclick = () => {
-    alert("Aquí se verán LOS GRUPOS DEL USUARIO");
-};
+// botones (solo prueba)
+document.getElementById("joinGroupBtn").onclick = () => alert("Unirse a grupo");
+document.getElementById("createGroupBtn").onclick = () => alert("Crear grupo");
+document.getElementById("myGroupsBtn").onclick = () => alert("Mis grupos");
