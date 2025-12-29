@@ -1,84 +1,63 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+// ======== LOGIN ========
 
-// CONFIGURACIÓN FIREBASE
-const firebaseConfig = {
-  apiKey: "AIzaSyBmIroUmph5yG4OxP6eXhlKQEDl0ueiasM",
-  authDomain: "mensajeria-cdfc0.firebaseapp.com",
-  databaseURL: "https://mensajeria-cdfc0-default-rtdb.firebaseio.com",
-  projectId: "mensajeria-cdfc0",
-  storageBucket: "mensajeria-cdfc0.firebasestorage.app",
-  messagingSenderId: "573296483646",
-  appId: "1:573296483646:web:472c20290720c41097e06f"
-};
-
-// Iniciar Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let username = "";
-let groupID = "global";
-
-// ELEMENTOS
 const loginContainer = document.getElementById("loginContainer");
 const menuContainer = document.getElementById("menuContainer");
 const chatContainer = document.getElementById("chatContainer");
 
 const usernameInput = document.getElementById("usernameInput");
 const loginBtn = document.getElementById("loginBtn");
+const welcomeTitle = document.getElementById("welcomeTitle");
 
-const sendMsgBtn = document.getElementById("sendMsgBtn");
-const msgInput = document.getElementById("msgInput");
-const messagesDiv = document.getElementById("messages");
-const backToMenu = document.getElementById("backToMenu");
+let currentUser = null;
 
-// LOGIN
-loginBtn.onclick = () => {
-    username = usernameInput.value.trim();
-    if (username === "") return alert("Ingresa un nombre");
+// CLICK EN BOTÓN ENTRAR
+loginBtn.addEventListener("click", login);
 
+function login() {
+    const name = usernameInput.value.trim();
+
+    if (name === "") {
+        alert("Por favor, escribe un nombre.");
+        return;
+    }
+
+    currentUser = name;
+
+    // Cambiar pantalla
     loginContainer.classList.add("hidden");
     menuContainer.classList.remove("hidden");
 
-    document.getElementById("welcomeTitle").innerText = "Bienvenido " + username;
-};
+    // Poner el nombre
+    welcomeTitle.textContent = "Bienvenido " + currentUser;
+}
 
-// ENTRAR AL CHAT (modo simple)
-document.getElementById("joinGroupBtn").onclick = () => {
+
+// ======== MENÚ ========
+
+document.getElementById("joinGroupBtn").addEventListener("click", () => {
     menuContainer.classList.add("hidden");
     chatContainer.classList.remove("hidden");
+});
 
-    startChat();
-};
-
-// VOLVER AL MENÚ
-backToMenu.onclick = () => {
+document.getElementById("backToMenu").addEventListener("click", () => {
     chatContainer.classList.add("hidden");
     menuContainer.classList.remove("hidden");
-};
+});
 
-// ENVIAR MENSAJE
-sendMsgBtn.onclick = () => {
-    const txt = msgInput.value.trim();
-    if (txt === "") return;
 
-    push(ref(db, "grupos/" + groupID), {
-        user: username,
-        text: txt
-    });
+// ======== CHAT ========
+
+document.getElementById("sendBtn").addEventListener("click", () => {
+    const msgInput = document.getElementById("msgInput");
+    const message = msgInput.value.trim();
+
+    if (message === "") return;
+
+    const messagesDiv = document.getElementById("messages");
+
+    const msgElement = document.createElement("p");
+    msgElement.textContent = `${currentUser}: ${message}`;
+    messagesDiv.appendChild(msgElement);
 
     msgInput.value = "";
-};
-
-// RECIBIR MENSAJES
-function startChat() {
-    messagesDiv.innerHTML = "";
-
-    onChildAdded(ref(db, "grupos/" + groupID), data => {
-        const msg = data.val();
-        const div = document.createElement("div");
-        div.innerHTML = `<strong>${msg.user}:</strong> ${msg.text}`;
-        messagesDiv.appendChild(div);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
-}
+});
