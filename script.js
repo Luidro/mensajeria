@@ -23,3 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+// Botones del menú
+document.getElementById("btnJoin").addEventListener("click", () => {
+    showScreen("joinScreen");
+});
+document.getElementById("btnCreate").addEventListener("click", () => {
+    showScreen("createScreen");
+});
+document.getElementById("btnMyGroups").addEventListener("click", () => {
+    showScreen("myGroupsScreen");
+});
+
+// Botones de volver
+document.getElementById("backFromJoin").addEventListener("click", () => {
+    showScreen("menuScreen");
+});
+document.getElementById("backFromCreate").addEventListener("click", () => {
+    showScreen("menuScreen");
+});
+document.getElementById("backFromMyGroups").addEventListener("click", () => {
+    showScreen("menuScreen");
+});
