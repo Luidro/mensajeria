@@ -1,29 +1,54 @@
-const loginBox = document.getElementById("loginBox");
-const menuBox = document.getElementById("menuBox");
+// Obtener pantallas
+const loginScreen = document.getElementById("loginScreen");
+const menuScreen = document.getElementById("menuScreen");
+const joinScreen = document.getElementById("joinScreen");
+const createScreen = document.getElementById("createScreen");
+const myGroupsScreen = document.getElementById("myGroupsScreen");
+const chatScreen = document.getElementById("chatScreen");
 
+// Inputs
+const usernameInput = document.getElementById("usernameInput");
+
+// Botones principales
 const loginBtn = document.getElementById("loginBtn");
-const usernameInput = document.getElementById("username");
-const welcomeTitle = document.getElementById("welcomeTitle");
+const btnJoin = document.getElementById("btnJoin");
+const btnCreate = document.getElementById("btnCreate");
+const btnMyGroups = document.getElementById("btnMyGroups");
 
-loginBtn.onclick = () => {
-    const name = usernameInput.value.trim();
+// Texto bienvenida
+const welcomeText = document.getElementById("welcomeText");
 
-    if (name === "") {
-        alert("Debes escribir un nombre");
+// Función para mostrar pantallas
+function show(screen) {
+    // Ocultar todas
+    document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
+
+    // Mostrar la solicitada
+    screen.classList.remove("hidden");
+}
+
+// LOGIN
+loginBtn.addEventListener("click", () => {
+    const username = usernameInput.value.trim();
+
+    if (username === "") {
+        alert("Ingresa un nombre");
         return;
     }
 
-    // ocultar login
-    loginBox.classList.add("hidden");
+    welcomeText.textContent = "Bienvenido " + username;
 
-    // mostrar menú
-    menuBox.classList.remove("hidden");
+    show(menuScreen);
+});
 
-    // poner nombre
-    welcomeTitle.textContent = "Bienvenido, " + name;
-};
+// MENÚ PRINCIPAL
+btnJoin.addEventListener("click", () => show(joinScreen));
+btnCreate.addEventListener("click", () => show(createScreen));
+btnMyGroups.addEventListener("click", () => show(myGroupsScreen));
 
-// botones (solo prueba)
-document.getElementById("joinGroupBtn").onclick = () => alert("Unirse a grupo");
-document.getElementById("createGroupBtn").onclick = () => alert("Crear grupo");
-document.getElementById("myGroupsBtn").onclick = () => alert("Mis grupos");
+// BOTONES DE REGRESO
+document.querySelectorAll("[data-back]").forEach(btn => {
+    btn.addEventListener("click", () => {
+        show(menuScreen);
+    });
+});
