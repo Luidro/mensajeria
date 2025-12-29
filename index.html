@@ -1,160 +1,447 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Salas</title>
+<meta charset="UTF-8">
+<title>DarkChat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1e1e2f, #3e3e5f);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js"></script>
 
-        /* ----- Login ----- */
-        #login {
-            width: 350px;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-            text-align: center;
-            display: none;
-        }
+<!-- Estilos -->
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('https://i.pinimg.com/1200x/bf/ea/2e/bfea2e69b6ddd72e0de60d1b49d22ae2.jpg') no-repeat center center fixed;
+        background-size: cover;
+    }
 
-        #login input {
-            width: 90%;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 8px;
-        }
+    /* Oscurecer fondo */
+    .overlay {
+        position: fixed;
+        inset: 0;
+        backdrop-filter: blur(8px);
+        background: rgba(0,0,0,0.6);
+        z-index: -1;
+    }
 
-        #login button {
-            margin-top: 15px;
-            width: 100%;
-            padding: 10px;
-            background: #4c6ef5;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    /* LOGIN */
+    #loginScreen {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        /* ----- Menú Principal ----- */
-        #menu {
-            text-align: center;
-            display: none;
-        }
+    .loginBox {
+        width: 330px;
+        padding: 25px;
+        background: rgba(30,30,30,0.8);
+        border-radius: 12px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.5);
+        text-align: center;
+        color: white;
+        animation: fadeIn 0.6s;
+    }
 
-        #menu button {
-            display: block;
-            width: 200px;
-            margin: 10px auto;
-            padding: 12px;
-            background: #4c6ef5;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .loginBox h2 {
+        margin: 0;
+        margin-bottom: 15px;
+        font-size: 22px;
+    }
 
-        /* ----- Pantallas secundarias ----- */
-        .pantalla {
-            display: none;
-            text-align: center;
-        }
+    .input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 7px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+    }
 
-        button.volver {
-            margin-top: 20px;
-            background: #f54242;
-        }
-    </style>
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: #5865F2;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 17px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn:hover { background: #4752c4; }
+
+    /* Avatar upload */
+    #avatarPreview {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: #222;
+        margin: auto;
+        margin-bottom: 15px;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* DASHBOARD */
+    #dashboardScreen {
+        display: none;
+        padding: 20px;
+        color: white;
+    }
+
+    .titleDash {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .gridButtons {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .cardBtn {
+        background: rgba(40,40,40,0.85);
+        padding: 20px;
+        border-radius: 12px;
+        width: 200px;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .cardBtn:hover {
+        background: rgba(70,70,70,0.85);
+    }
+
+    /* CHAT */
+    #chatScreen {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(20,20,20,0.9);
+        color: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chatHeader {
+        padding: 15px;
+        background: #1f1f1f;
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .backBtn {
+        cursor: pointer;
+        padding: 6px 12px;
+        background: #333;
+        border-radius: 6px;
+    }
+
+    #messages {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    .msg {
+        background: #2e2e2e;
+        padding: 10px;
+        margin: 7px 0;
+        border-radius: 10px;
+        max-width: 80%;
+        display: flex;
+        gap: 10px;
+        animation: fadeIn 0.4s;
+    }
+
+    .msg img.avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .msgContent {
+        max-width: 100%;
+        word-wrap: break-word;
+    }
+
+    /* Chat input */
+    .inputArea {
+        display: flex;
+        padding: 10px;
+        background: #1f1f1f;
+        gap: 10px;
+        align-items: center;
+    }
+    .inputMsg {
+        flex-grow: 1;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+    }
+    .sendBtn {
+        padding: 12px 18px;
+        background: #5865F2;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    /* Botón + */
+    .plusBtn {
+        background: #404040;
+        color: white;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        border: none;
+        cursor: pointer;
+        font-size: 22px;
+    }
+
+    /* Animación */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.97); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+
 </head>
-
 <body>
 
-    <!-- LOGIN -->
-    <div id="login">
-        <h2>Iniciar Sesión</h2>
-        <input id="usuario" placeholder="Nombre">
-        <button onclick="entrar()">Entrar</button>
+<div class="overlay"></div>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+    <div class="loginBox">
+        <h2>DarkChat</h2>
+        <img id="avatarPreview" src="">
+
+        <input type="file" id="avatarInput" accept="image/*">
+
+        <input id="username" class="input" placeholder="Nombre de usuario">
+
+        <button id="loginBtn" class="btn">Entrar</button>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboardScreen">
+    <div class="titleDash">Bienvenido a DarkChat</div>
+
+    <div class="gridButtons">
+        <div class="cardBtn" id="createGroupBtn">Crear grupo</div>
+        <div class="cardBtn" id="joinGroupBtn">Unirse a grupo</div>
+        <div class="cardBtn" id="myGroupsBtn">Mis grupos</div>
+    </div>
+</div>
+
+<!-- CHAT -->
+<div id="chatScreen">
+    <div class="chatHeader">
+        <span class="backBtn" id="backToDash">←</span>
+        <span id="chatTitle">Grupo</span>
     </div>
 
-    <!-- MENÚ PRINCIPAL -->
-    <div id="menu">
-        <h1>Menú</h1>
-        <button id="btnCrear">Crear Sala</button>
-        <button id="btnUnir">Unirse a Sala</button>
-        <button id="btnCreados">Mis Salas</button>
+    <div id="messages"></div>
+
+    <div class="inputArea">
+        <button class="plusBtn" id="fileBtn">+</button>
+        <input type="file" id="fileInput" hidden>
+        <input id="msgInput" class="inputMsg" placeholder="Escribe un mensaje...">
+        <button id="sendBtn" class="sendBtn">Enviar</button>
     </div>
+</div>
 
-    <!-- CREAR -->
-    <div id="crear" class="pantalla">
-        <h2>Crear Sala</h2>
-        <p>Pantalla para crear sala</p>
-        <button class="volver" onclick="volverMenu()">Volver</button>
-    </div>
+<script>
+/* ================================
+   INICIALIZAR FIREBASE
+================================ */
+const firebaseConfig = {
+    apiKey: "AIzaSyBmIroUmph5yG4OxP6eXhlKQEDl0ueiasM",
+    authDomain: "mensajeria-cdfc0.firebaseapp.com",
+    databaseURL: "https://mensajeria-cdfc0-default-rtdb.firebaseio.com",
+    projectId: "mensajeria-cdfc0",
+    storageBucket: "mensajeria-cdfc0.firebasestorage.app",
+    messagingSenderId: "573296483646",
+    appId: "1:573296483646:web:472c20290720c41097e06f"
+};
 
-    <!-- UNIR -->
-    <div id="unir" class="pantalla">
-        <h2>Unirse a Sala</h2>
-        <p>Pantalla para unirse con código</p>
-        <button class="volver" onclick="volverMenu()">Volver</button>
-    </div>
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const storage = firebase.storage();
 
-    <!-- CREADOS -->
-    <div id="creados" class="pantalla">
-        <h2>Mis Salas</h2>
-        <p>Pantalla donde se mostrarán salas del usuario</p>
-        <button class="volver" onclick="volverMenu()">Volver</button>
-    </div>
+/* ================================
+   VARIABLES
+================================ */
+let username = "";
+let avatarURL = "";
+let currentGroup = "";
 
+/* ================================
+   LOGIN
+================================ */
+avatarInput.onchange = e => {
+    avatarPreview.src = URL.createObjectURL(e.target.files[0]);
+};
 
-    <!-- LÓGICA -->
-    <script>
-        // Mostrar login al cargar
-        document.getElementById("login").style.display = "block";
+loginBtn.onclick = async () => {
+    username = username.value.trim() || document.getElementById("username").value.trim();
 
-        function entrar() {
-            const usuario = document.getElementById("usuario").value;
+    if (!username) return alert("Escribe un nombre");
 
-            if (usuario.length < 1) {
-                alert("Ingresa un nombre.");
-                return;
+    if (!avatarInput.files[0]) return alert("Selecciona un avatar");
+
+    // Subir avatar a Firebase Storage
+    const file = avatarInput.files[0];
+    const ref = storage.ref("avatars/" + Date.now() + "_" + file.name);
+    await ref.put(file);
+    avatarURL = await ref.getDownloadURL();
+
+    // Pasar a dashboard
+    loginScreen.style.display = "none";
+    dashboardScreen.style.display = "block";
+};
+
+/* ================================
+   BOTONES DASHBOARD
+================================ */
+createGroupBtn.onclick = async () => {
+    const name = prompt("Nombre del grupo:");
+    if (!name) return;
+
+    await db.ref("grupos/" + name).update({
+        creadoPor: username,
+        avatarCreador: avatarURL
+    });
+
+    alert("Grupo creado");
+};
+
+joinGroupBtn.onclick = async () => {
+    const name = prompt("Nombre del grupo al que quieres unirte:");
+    if (!name) return;
+    openChat(name);
+};
+
+myGroupsBtn.onclick = async () => {
+    alert("Pronto: lista de mis grupos");
+};
+
+/* ================================
+   ABRIR CHAT
+================================ */
+function openChat(name) {
+    currentGroup = name;
+    chatTitle.innerText = name;
+
+    dashboardScreen.style.display = "none";
+    chatScreen.style.display = "flex";
+
+    loadMessages();
+}
+
+backToDash.onclick = () => {
+    chatScreen.style.display = "none";
+    dashboardScreen.style.display = "block";
+};
+
+/* ================================
+   ENVIAR MENSAJE
+================================ */
+sendBtn.onclick = sendMessage;
+
+msgInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+});
+
+function sendMessage() {
+    const text = msgInput.value.trim();
+    if (!text) return;
+
+    db.ref("mensajes/" + currentGroup).push({
+        user: username,
+        avatar: avatarURL,
+        text: text,
+        type: "text",
+        time: Date.now()
+    });
+
+    msgInput.value = "";
+}
+
+/* ================================
+   SUBIR ARCHIVOS
+================================ */
+fileBtn.onclick = () => fileInput.click();
+
+fileInput.onchange = async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const ref = storage.ref("archivos/" + Date.now() + "_" + file.name);
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+
+    db.ref("mensajes/" + currentGroup).push({
+        user: username,
+        avatar: avatarURL,
+        text: url,
+        type: file.type.startsWith("video") ? "video" : "image",
+        time: Date.now()
+    });
+};
+
+/* ================================
+   CARGAR MENSAJES EN TIEMPO REAL
+================================ */
+function loadMessages() {
+    messages.innerHTML = "";
+
+    db.ref("mensajes/" + currentGroup).on("child_added", snap => {
+        const msg = snap.val();
+        addMessage(msg);
+    });
+}
+
+function addMessage(msg) {
+    const div = document.createElement("div");
+    div.className = "msg";
+
+    div.innerHTML = `
+        <img src="${msg.avatar}" class="avatar">
+        <div class="msgContent">
+            <b>${msg.user}</b><br>
+            ${
+                msg.type === "text"
+                ? msg.text
+                : msg.type === "image"
+                ? `<img src="${msg.text}" style="max-width:200px;border-radius:8px;">`
+                : `<video src="${msg.text}" controls style="max-width:200px;border-radius:8px;"></video>`
             }
+        </div>
+    `;
 
-            document.getElementById("login").style.display = "none";
-            document.getElementById("menu").style.display = "block";
-        }
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
 
-        // Mostrar pantallas
-        function abrirPantalla(id) {
-            document.getElementById("menu").style.display = "none";
-
-            document.querySelectorAll(".pantalla").forEach(p => p.style.display = "none");
-            document.getElementById(id).style.display = "block";
-        }
-
-        function volverMenu() {
-            document.querySelectorAll(".pantalla").forEach(p => p.style.display = "none");
-            document.getElementById("menu").style.display = "block";
-        }
-
-        // Eventos botones
-        document.getElementById("btnCrear").onclick = () => abrirPantalla("crear");
-        document.getElementById("btnUnir").onclick = () => abrirPantalla("unir");
-        document.getElementById("btnCreados").onclick = () => abrirPantalla("creados");
-    </script>
+</script>
 
 </body>
 </html>
