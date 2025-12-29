@@ -52,3 +52,43 @@ button:hover {
 .menuBtn {
     margin-top: 10px;
 }
+
+.screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.backBtn {
+    margin-top: 15px;
+    background: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.group-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.group-list li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
