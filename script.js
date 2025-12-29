@@ -1,5 +1,6 @@
 /***********************
- *      LOGIN
+ *      LOGI
+ 
  ***********************/
 const loginContainer = document.getElementById("loginContainer");
 const menuContainer = document.getElementById("menuContainer");
