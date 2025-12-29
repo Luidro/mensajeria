@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkChat</title>
+    <title>Mensajería</title>
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Script -->
+    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <!-- LOGN -->
+    <!-- LOGIN -->
     <div id="loginScreen" class="screen">
         <div class="box">
             <h2>DarkChat</h2>
@@ -17,65 +22,16 @@
         </div>
     </div>
 
-   <!-- MENÚ MINIMALISTA -->
-<div id="menuScreen" class="screen hidden">
-    <div class="menu-box-ios">
-        <h2 class="menu-title-ios">Menú Principal</h2>
-
-        <div class="menu-buttons-ios">
-            <button class="menuBtnIOS" id="btnJoin">Unirse a Grupo</button>
-            <button class="menuBtnIOS" id="btnCreate">Crear Grupo</button>
-            <button class="menuBtnIOS" id="btnMyGroups">Mis Grupos</button>
-        </div>
-    </div>
-</div>
-
-
-    <!-- UNIRSE A GRUPO -->
-    <div id="joinScreen" class="screen hidden">
+    <!-- MENÚ -->
+    <div id="menuScreen" class="screen hidden">
         <div class="box">
-            <h2>Unirse a un Grupo</h2>
-            <p>Pantalla para unirse (aún sin Firebase)</p>
-            <button class="backBtn" data-back>Regresar</button>
+            <h2 id="welcomeText">Bienvenido</h2>
+
+            <button class="menuBtn" id="btnJoin">Unirse a un grupo</button>
+            <button class="menuBtn" id="btnCreate">Crear un grupo</button>
+            <button class="menuBtn" id="btnMyGroups">Mis grupos</button>
         </div>
     </div>
 
-    <!-- CREAR GRUPO -->
-    <div id="createScreen" class="screen hidden">
-        <div class="box">
-            <h2>Crear Grupo</h2>
-            <p>Pantalla para crear grupos (aún sin Firebase)</p>
-            <button class="backBtn" data-back>Regresar</button>
-        </div>
-    </div>
-
-    <!-- MIS GRUPOS -->
-    <div id="myGroupsScreen" class="screen hidden">
-        <div class="box">
-            <h2>Mis Grupos</h2>
-            <p>Aquí aparecerán tus grupos (aún sin Firebase)</p>
-            <button class="backBtn" data-back>Regresar</button>
-        </div>
-    </div>
-
-    <!-- CHAT -->
-    <div id="chatScreen" class="screen hidden">
-        <header>
-            <button class="backBtn" data-back>⬅</button>
-            <h3 id="chatTitle">Chat</h3>
-        </header>
-
-        <div id="messagesBox">
-            <p>Aquí estará el chat (sin Firebase de momento)</p>
-        </div>
-
-        <footer>
-            <input type="text" placeholder="Escribe un mensaje...">
-            <button>Enviar</button>
-        </footer>
-    </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
-
