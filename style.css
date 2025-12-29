@@ -1,89 +1,73 @@
 body {
     margin: 0;
-    background: #000;
-    font-family: Arial;
+    background: #0a0a0a;
+    font-family: Arial, sans-serif;
     color: white;
 }
 
-/* Ocultar elementos */
+.screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 .hidden {
     display: none;
 }
 
-/* Centrado general */
-.center-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Caja de login */
-.login-box, .menu-box {
-    background: rgba(255,255,255,0.05);
-    padding: 30px;
+.box {
+    background: #111;
+    padding: 25px;
     border-radius: 10px;
-    width: 300px;
+    width: 85%;
+    max-width: 350px;
     text-align: center;
-    backdrop-filter: blur(8px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 input {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 5px;
+    border-radius: 6px;
     border: none;
-    outline: none;
 }
 
 button {
+    width: 95%;
     padding: 10px;
-    background: #4c4cff;
-    color: white;
+    background: #6200ea;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
+    color: white;
+    margin-top: 10px;
     cursor: pointer;
-    width: 120px;
 }
 
 button:hover {
-    background: #6f6fff;
+    background: #7c36ff;
 }
 
-.menu-buttons button {
-    width: 80%;
-    margin-bottom: 10px;
+.menuBtn {
+    margin: 10px 0;
 }
 
-/* Chat */
-.chat {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+.backBtn {
+    background: #333;
+    width: 60%;
 }
 
 header {
     background: #111;
-    padding: 15px;
+    padding: 10px;
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-#messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-}
-
-footer {
-    padding: 15px;
-    background: #111;
-    display: flex;
     gap: 10px;
 }
 
-footer input {
-    flex: 1;
+#messagesBox {
+    height: 60vh;
+    overflow-y: auto;
+    padding: 10px;
 }
