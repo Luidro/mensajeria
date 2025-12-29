@@ -1,45 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkChat</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<!-- LOGIN -->
+<div id="loginContainer" class="center-container">
+    <div class="login-box">
+        <h2>DarkChat</h2>
+        <input id="usernameInput" type="text" placeholder="Nombre de usuario">
+        <button id="loginBtn">Entrar</button>
+    </div>
+</div>
 
-<body>
-
-    <!-- LOGIN -->
-    <div id="loginContainer" class="center-container">
-        <div class="login-box">
-            <h2>DarkChat</h2>
-            <input id="usernameInput" type="text" placeholder="Nombre de usuario">
-            <button id="loginBtn">Entrar</button>
+<!-- MENÚ -->
+<div id="menuContainer" class="center-container hidden">
+    <div class="menu-box">
+        <h2 id="welcomeTitle">Bienvenido</h2>
+        <div class="menu-buttons">
+            <button class="menuBtn" id="joinGroupBtn">Unirse a Grupo</button>
+            <button class="menuBtn" id="createGroupBtn">Crear Grupo</button>
+            <button class="menuBtn" id="myGroupsBtn">Mis Grupos</button>
         </div>
     </div>
+</div>
 
-    <!-- MENÚ DE GRUPOS -->
-    <div id="menuContainer" class="center-container hidden">
-        <div class="menu-box">
-            <h2 id="welcomeTitle">Bienvenido</h2>
+<!-- CHAT -->
+<div id="chatContainer" class="chat hidden">
+    <header>
+        <button id="backToMenu" class="backBtn">⬅</button>
+        <h3 id="chatTitle">Grupo</h3>
+    </header>
 
-            <div class="menu-buttons">
-                <button class="menuBtn" id="joinGroupBtn">Unirse a Grupo</button>
-                <button class="menuBtn" id="createGroupBtn">Crear Grupo</button>
-                <button class="menuBtn" id="myGroupsBtn">Mis Grupos</button>
-            </div>
-        </div>
-    </div>
+    <div id="messages"></div>
 
-    <!-- CHAT -->
-    <div id="chatContainer" class="chat hidden">
-        <header>
-            <button id="backToMenu" class="backBtn">⬅</button>
-            <h3 id="chatTitle">Grupo</h3>
-        </header>
-
-        <div id="messages"></div>
-
-        <footer>
-            <input id="msgInput" type="text" placeholder="Escribe un mensaje...">
-            <but
+    <footer>
+        <input id="msgInput" type="text" placeholder="Escribe un mensaje...">
+        <button id="sendBtn">Enviar</button>
+    </footer>
+</div>
