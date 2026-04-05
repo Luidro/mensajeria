@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vanishing - Grupos de Amigos</title>
+    <title>FriendGroups - Grupos de Amigos</title>
     <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
     <style>
@@ -31,26 +31,15 @@
             --warning: #fdcb6e;
             --border: rgba(108, 92, 231, 0.2);
         }
-/*liea que acabe de cambiar*/
+
         body {
-               font-family: 'Poppins', sans-serif;
-               background: url('https://i.pinimg.com/1200x/d6/0f/3b/d60f3b05fe6093f9671c1d816b35924d.jpg') no-repeat center center fixed;
-               background-size: cover;
-               color: #e0e0e0;
-               min-height: 100vh;
-               overflow-x: hidden;
-          }
-       body::before {
-                content: "";
-                position: fixed;
-                top: 0;
-                left: 0;
-               width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.75);
-                 z-index: -1;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-/*fin de la liea nueva*/
+
         body::before {
             content: '';
             position: fixed;
@@ -882,8 +871,7 @@
             flex-direction: column;
             gap: 4px;
             background-color: #0a0a1a;
-            /* siguiente linea personalizar fondo del chat*/
-            background-image: url('https://i.pinimg.com/736x/8d/73/93/8d73932d6656cb10c97d89063545bf99.jpg');
+            background-image: url('https://i.pinimg.com/736x/05/7b/59/057b59d963841633a24c8d6f2bbbb7d5.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -1603,8 +1591,8 @@
         <div class="login-container">
             <div class="login-card">
                 <div class="logo-icon">👥</div>
-                <h1>Vanishing</h1>
-                <p class="subtitle">Acceso compartido. Conversaciones que se esfuman.</p>
+                <h1>FriendGroups</h1>
+                <p class="subtitle">Crea grupos, comparte el código e invita a tus amigos</p>
 
                 <div class="avatar-upload">
                     <label class="avatar-upload-wrapper" for="profilePicInput">
@@ -1622,7 +1610,7 @@
                 </div>
 
                 <button class="btn btn-primary" id="loginBtn">
-                     Entrar
+                    🚀 Entrar
                 </button>
 
                 <div class="cloud-badge">
@@ -1637,7 +1625,7 @@
         <div class="dashboard">
             <div class="header">
                 <div class="header-left">
-                    <div class="header-logo">👥 Vanishing</div>
+                    <div class="header-logo">👥 FriendGroups</div>
                     <div class="connection-status" id="connectionStatus">
                         <div class="status-dot"></div>
                         <span>En línea</span>
@@ -1656,7 +1644,7 @@
                 <div class="action-card create" id="createGroupBtn">
                     <div class="icon">✨</div>
                     <h3>Crear Grupo</h3>
-                    <p>Acceso compartido. Conversaciones que se esfuman.</p>
+                    <p>Crea un nuevo grupo y comparte el código con tus amigos</p>
                 </div>
                 <div class="action-card join" id="joinGroupBtn">
                     <div class="icon">🔗</div>
@@ -1728,14 +1716,19 @@
             <button class="info-panel-close" id="infoPanelClose">←</button>
             <h3>Info del grupo</h3>
         </div>
-     <div class="info-panel-body">
-    <div class="info-panel-avatar" id="infoPanelAvatar"></div>
-    <div class="info-panel-name" id="infoPanelName"></div>
-    <div class="info-panel-code" id="infoPanelCode"></div>
-         
-    <div class="info-panel-section-title" id="infoPanelMemberTitle">Miembros</div>
-    <div id="infoPanelMembers"></div>
-</div>
+        <div class="info-panel-body">
+            <div class="info-panel-avatar" id="infoPanelAvatar"></div>
+            <div class="info-panel-name" id="infoPanelName"></div>
+            <div class="info-panel-code" id="infoPanelCode"></div>
+
+            <div class="info-panel-section-title" id="infoPanelMemberTitle">Miembros</div>
+            <div id="infoPanelMembers"></div>
+        </div>
+        <div class="info-panel-actions">
+            <button class="btn btn-secondary btn-small" id="infoPanelEditBtn" style="width:100%;">✏️ Editar grupo</button>
+            <button class="btn btn-danger btn-small" id="infoPanelLeaveBtn" style="width:100%;">🚪 Salir del grupo</button>
+        </div>
+    </div>
 
     <!-- CREATE GROUP MODAL -->
     <div class="modal-overlay" id="createModal">
@@ -2023,49 +2016,31 @@
                 }
             });
         }
-// ==================== LOGIN ====================
-var profilePicInput = document.getElementById('profilePicInput');
 
-if (profilePicInput) {
-    profilePicInput.addEventListener('change', async function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const url = await processImage(file, 120);
-
-        if (url) {
-            var preview = document.getElementById('avatarPreview');
-            if (preview) {
-                preview.innerHTML = '<img src="' + url + '" alt="avatar">';
+        // ==================== LOGIN ====================
+        document.getElementById('profilePicInput').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = await processImage(file, 120);
+            if (url) {
+                document.getElementById('avatarPreview').innerHTML = '<img src="' + url + '" alt="avatar">';
             }
-        }
-    });
-} // ✅ aquí termina correctamente
+        });
 
-// LOGIN BUTTON
-var loginBtn = document.getElementById('loginBtn');
+        document.getElementById('loginBtn').addEventListener('click', async function() {
+            const nickname = document.getElementById('nicknameInput').value.trim();
+            if (!nickname) {
+                document.getElementById('nicknameInput').style.borderColor = 'var(--danger)';
+                document.getElementById('nicknameInput').focus();
+                setTimeout(function() {
+                    document.getElementById('nicknameInput').style.borderColor = '';
+                }, 2000);
+                return;
+            }
 
-if (loginBtn) {
-    loginBtn.addEventListener('click', async function() {
-        const nickname = document.getElementById('nicknameInput').value.trim();
+            const btn = document.getElementById('loginBtn');
+            setBtnLoading(btn, true);
 
-        if (!nickname) {
-            document.getElementById('nicknameInput').style.borderColor = 'var(--danger)';
-            document.getElementById('nicknameInput').focus();
-
-            setTimeout(function() {
-                document.getElementById('nicknameInput').style.borderColor = '';
-            }, 2000);
-
-            return;
-        }
-
-        const btn = document.getElementById('loginBtn');
-        setBtnLoading(btn, true);
-
-        // resto de tu lógica...
-    });
-}
             const avatarImg = document.querySelector('#avatarPreview img');
             const avatar = avatarImg ? avatarImg.src : null;
 
@@ -2897,4 +2872,3 @@ if (loginBtn) {
     </script>
 </body>
 </html>
-
