@@ -1733,12 +1733,7 @@
     <div class="info-panel-avatar" id="infoPanelAvatar"></div>
     <div class="info-panel-name" id="infoPanelName"></div>
     <div class="info-panel-code" id="infoPanelCode"></div>
-
-    <!-- QR -->
-    <div class="qr-container">
-        <canvas id="qrCanvas"></canvas>
-    </div>
-
+         
     <div class="info-panel-section-title" id="infoPanelMemberTitle">Miembros</div>
     <div id="infoPanelMembers"></div>
 </div>
@@ -2638,18 +2633,6 @@
                     '<span class="code-value">' + group.code + '</span>' +
                     '<span class="copy-icon">📋</span>' +
                 '</div>';
-
-            setTimeout(function () {
-    var canvas = document.getElementById('qrCanvas');
-
-    if (canvas && group.code) {
-        QRCode.toCanvas(canvas,'https://tuapp.com/join?code=' + group.code, {
-            width: 180
-        }, function (error) {
-            if (error) console.error(error);
-        });
-    }
-}, 100);
 
             // Members
             var members = group.members ? Object.entries(group.members) : [];
